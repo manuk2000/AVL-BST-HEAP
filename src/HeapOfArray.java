@@ -1,15 +1,24 @@
 import java.util.Comparator;
 import java.util.function.Consumer;
 
-public class HeapWithArray<T extends Comparable<T>> implements IHeap<T> {
+public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
+    private static final int START_CAPACITY = 10;
     private int capacity;
     private int size;
     private T[] array;
     private Comparator<T> comparator;
 
-    public HeapWithArray(final T[] initialArray) {
+    public HeapOfArray(final T[] initialArray) {
         this.array = initialArray;
         this.capacity = this.size = initialArray.length;
+        comparator = Comparable::compareTo;
+        buildHeap();
+    }
+
+    public HeapOfArray() {
+        this.array = (T[]) new Comparable[START_CAPACITY];
+        this.capacity = array.length;
+        this.size = 0;
         comparator = Comparable::compareTo;
         buildHeap();
     }
@@ -31,10 +40,20 @@ public class HeapWithArray<T extends Comparable<T>> implements IHeap<T> {
         return currentIndex > -1 ? currentIndex * 2 + 2 : -1;
     }
 
+    @Override
+    public T getRootValue() {
+        return array[0];
+    }
+
     private void swap(int i, int j) {
         T temp = array[i];
         array[i] = array[j];
         array[j] = temp;
+    }
+
+    @Override
+    public T getValue(int index) {
+        return array[index];
     }
 
     @Override
@@ -43,7 +62,18 @@ public class HeapWithArray<T extends Comparable<T>> implements IHeap<T> {
             resizeArray();
         }
         array[size] = value;
-        bubbleUp(size++);
+        incresing(size++);
+    }
+
+    @Override
+    public void update(T value, int index) {
+        if (value.compareTo(array[parent(index)]) > 0) {
+            incresing(index);
+        } else {
+            heapify(index);
+        }
+
+
     }
 
     private void resizeArray() {
@@ -54,12 +84,12 @@ public class HeapWithArray<T extends Comparable<T>> implements IHeap<T> {
         capacity = newCapacity;
     }
 
-    private void bubbleUp(int index) {
+    private void incresing(int index) {
         int parentIndex = parent(index);
         if (parentIndex != -1) {
             if (comparator.compare(array[parentIndex], array[index]) < 0) {
                 swap(index, parentIndex);
-                bubbleUp(parentIndex);
+                incresing(parentIndex);
             }
         }
     }
@@ -118,6 +148,7 @@ public class HeapWithArray<T extends Comparable<T>> implements IHeap<T> {
 
     @Override
     public void traverseRecursive(int nodeIndex, Consumer<T> action, TraverseType type) {
+        if (nodeIndex > (size + 1) / 2) return;
         switch (type) {
             case PRE_ORDER:
                 action.accept(array[nodeIndex]);
