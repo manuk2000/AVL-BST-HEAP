@@ -28,10 +28,10 @@ public class PriorityQueue<T extends Comparable<T>> {
 
     }
 
-    IHeap<Node<T>> heap;
+    HeapOfArray<Node<T>> heap;
 
     public PriorityQueue() {
-        heap = new HeapWithArray<>();
+        heap = new HeapOfArray<>();
     }
 
     public void insert(T value, int proirity) {
@@ -90,38 +90,4 @@ public class PriorityQueue<T extends Comparable<T>> {
     }
 }
 
-//class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
-//
-//    private int valProirity;
-//    private T value;
-//
-//    public Node(int valProirity, T val) {
-//        this.valProirity = valProirity;
-//        this.value = val;
-//    }
-//
-//    public int compareTo(int o) {
-//        return Integer.compare(valProirity, o);
-//    }
-//
-//    @Override
-//    public int compareTo(Node<T> o) {
-//        return Integer.compare(valProirity, o.valProirity);
-//    }
-//
-//    public int getValProirity() {
-//        return this.valProirity;
-//    }
-//
-//    public T getValue() {
-//        return this.value;
-//    }
-//
-//    public void setValProirity(final int valProirity) {
-//        this.valProirity = valProirity;
-//    }
-//
-//    public void setValue(final T value) {
-//        this.value = value;
-//    }
-//}
+

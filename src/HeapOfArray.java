@@ -1,7 +1,7 @@
 import java.util.Comparator;
 import java.util.function.Consumer;
 
-public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
+public class HeapOfArray<T extends Comparable<T>> {
     private static final int START_CAPACITY = 10;
     private int capacity;
     private int size;
@@ -23,7 +23,7 @@ public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
         buildHeap();
     }
 
-    @Override
+
     public void setComparator(final Comparator<T> comparator) {
         this.comparator = comparator;
     }
@@ -40,7 +40,7 @@ public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
         return currentIndex > -1 ? currentIndex * 2 + 2 : -1;
     }
 
-    @Override
+
     public T getRootValue() {
         return array[0];
     }
@@ -51,12 +51,12 @@ public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
         array[j] = temp;
     }
 
-    @Override
+
     public T getValue(int index) {
         return array[index];
     }
 
-    @Override
+
     public void insert(T value) {
         if (size == capacity) {
             resizeArray();
@@ -65,7 +65,7 @@ public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
         incresing(size++);
     }
 
-    @Override
+
     public void update(T value, int index) {
         if (value.compareTo(array[parent(index)]) > 0) {
             incresing(index);
@@ -94,7 +94,7 @@ public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
         }
     }
 
-    @Override
+
     public void delete(int index) {
         if (index >= 0 && index < size) {
             --size;
@@ -103,7 +103,7 @@ public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
         }
     }
 
-    @Override
+
     public void heapSort() {
         int originalSize = size;
         for (int i = 0; i < originalSize - 1; i++) {
@@ -112,7 +112,7 @@ public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
         size = originalSize;
     }
 
-    @Override
+
     public void buildHeap() {
         for (int i = (size / 2) - 1; i >= 0; i--) {
             heapify(i);
@@ -146,7 +146,7 @@ public class HeapOfArray<T extends Comparable<T>> implements IHeap<T> {
         }
     }
 
-    @Override
+
     public void traverseRecursive(int nodeIndex, Consumer<T> action, TraverseType type) {
         if (nodeIndex > (size + 1) / 2) return;
         switch (type) {
